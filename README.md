@@ -2,22 +2,17 @@
 
 ## Description
 
-A responsive React app displaying curated coding and software engineering
-resources. Users can browse 10+ resource cards, each showing the title,
-category, difficulty level, description, and a direct link to the resource.
+A responsive React app displaying curated coding and software engineering resources. Users can browse 10+ resource cards, each showing the title, category, difficulty level, description, and a direct link to the resource.
 
 **Tech used:** HTML | CSS | JavaScript | React | Vite
 
-## Required Features
+## Features
 
 - [x] The app has a cohesive, unique theme for events or resources relevant to a specific community
 - [x] Header/title describing the theme is displayed
 - [x] At least 10 unique events or resources are displayed in a responsive card format
 - [x] The cards are displayed in an organized format (grid layout)
 - [x] Each card includes information about the event or resource
-
-## Stretch Features
-
 - [x] Buttons or links to related resources are on each card component
 - [ ] The site is responsive for both desktop and mobile formats
 
@@ -25,13 +20,16 @@ category, difficulty level, description, and a direct link to the resource.
 
 Here's a walkthrough of implemented features:
 
-<img src='' title='Video Walkthrough' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
+<!-- Replace this with whatever GIF tool you used! -->
+GIF created with ...  
+<!-- Recommended tools:
+[Kap](https://getkap.co/) for macOS
+[ScreenToGif](https://www.screentogif.com/) for Windows
+[peek](https://github.com/phw/peek) for Linux. -->
 
 ## Notes
-
-Describe any challenges you encountered while building the app:
-- (e.g. understanding how props flow from App.jsx to Card.jsx)
 
 One challenge I encountered was understanding how the `map()` function works in React to render multiple components from an array.
 
