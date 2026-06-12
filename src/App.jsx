@@ -1,5 +1,6 @@
 import './App.css'
 import Card from './Card'
+import { useState } from 'react'
 
 const resources = [
   {
@@ -85,14 +86,84 @@ const resources = [
 ]
 
 function App() {
+  const [search, setSearch] = useState('')
+  const [activeCategory, setActiveCategory] = useState('All')
+  const [sort, setSort] = useState('default')
+  const [darkMode, setDarkMode] = useState(true)
+  const [favorites, setFavorites] = useState([])
+
+  const categories = ['All', ...new Set(resources.map((r) => r.category))]  // ← ADDED
+
+  const difficultyOrder = {
+    'Beginner': 1,
+    'Beginner–Intermediate': 2,
+    'Intermediate': 3,
+    'Intermediate–Advanced': 4,
+    'Advanced': 5,
+    'All Levels': 6
+  }
+
+  const filtered = resources                                                  // ← ONLY ONE
+    .filter((r) =>
+      activeCategory === 'All' || r.category === activeCategory
+    )
+    .filter((r) =>
+      r.title.toLowerCase().includes(search.toLowerCase()) ||
+      r.description.toLowerCase().includes(search.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sort === 'easiest') return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]
+      if (sort === 'hardest') return difficultyOrder[b.difficulty] - difficultyOrder[a.difficulty]
+      return 0
+    })
+
+  const toggleFavorite = (id) => {
+    setFavorites((prev) =>
+      prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
+    )
+  }
+
   return (
-    <div className="app">
+    <div className={`app ${darkMode ? 'dark' : 'light'}`}>
       <header className="header">
         <h1>💻 Tech Resources Board</h1>
         <p>Curated links to help you learn coding & software engineering</p>
+        <input
+          className="search-bar"
+          type="text"
+          placeholder="Search resources..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <div className="filters">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
+              onClick={() => setActiveCategory(cat)}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+        <button className="theme-toggle" onClick={() => setDarkMode(!darkMode)}>
+          {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
+        </button>
       </header>
+      <div className="toolbar">
+        <span className="results-count">{filtered.length} resource{filtered.length !== 1 ? 's' : ''} found</span>
+        <select
+          className="sort-select"
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}
+        >
+          <option value="default">Sort: Default</option>
+          <option value="easiest">Sort: Easiest first</option>
+          <option value="hardest">Sort: Hardest first</option>
+        </select>
+      </div>
       <main className="grid">
-        {resources.map((resource) => (
+        {filtered.map((resource) => (
           <Card
             key={resource.id}
             title={resource.title}
@@ -100,6 +171,8 @@ function App() {
             description={resource.description}
             link={resource.link}
             difficulty={resource.difficulty}
+            isFavorited={favorites.includes(resource.id)}
+            onFavorite={() => toggleFavorite(resource.id)}
           />
         ))}
       </main>
